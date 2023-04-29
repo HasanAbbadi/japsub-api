@@ -11,10 +11,11 @@ const Search = (title, season, episode) => {
 
   for (let i = 0; i < results.length; i++) {
     let test = results[i].obj.subs?.filter((el) => {
-      return checkSeason(el.title, season) && checkEpisode(el.title, episode);
+      const title = cleanTitle(el.title);
+      return checkSeason(title, season) && checkEpisode(title, episode);
     });
 
-    if (!episode) {
+    if (!episode && !season) {
       test = results[i].obj;
     }
     filter.push(test);
@@ -23,32 +24,38 @@ const Search = (title, season, episode) => {
   return filter;
 };
 
+const cleanTitle = (sub) => {
+  // other file extensions
+  sub = sub.replace(/.*\.(txt|md)$/, "");
+  sub = sub.replace(/(1080|720)p.*/, "");
+
+  // get rid of dates and seasons
+  sub = sub.replace(/[\[\(][0-9]*(\.|-)[0-9]*(\.|-)[0-9]*[\]\)]/, "");
+
+  return sub;
+};
+
 const checkSeason = (sub, season) => {
   const singleRegex = new RegExp(`([Ss][Ee][Aa][Ss][Oo][Nn]|S).?${season}*`);
   const singleMatch = singleRegex.exec(sub);
 
-  if (singleMatch) return true;
+  if (singleMatch || !season) return true;
   return false;
 };
 
 const checkEpisode = (sub, episode) => {
-  // other file extensions
-  sub = sub.replace(/.*\.(txt|md)$/, "");
-  sub = sub.replace(/(1080|720)p.*/, "")
-
-  // get rid of dates and seasons
+  episode = parseInt(episode);
   sub = sub.replace(/([Ss][Ee][Aa][Ss][Oo][Nn]|S).?[0-9]*/, "");
-  sub = sub.replace(/[\[\(][0-9]*(\.|-)[0-9]*(\.|-)[0-9]*[\]\)]/, "");
-
   const singleRegex = new RegExp(`[Ee]?(?<![0-9])0?(${episode})(?![0-9])`, "g");
   const singleMatch = singleRegex.exec(sub);
 
   const regionRegex = new RegExp("([0-9]*)(-|~)([0-9]*)", "g");
   const regionMatch = regionRegex.exec(sub);
 
-  if (singleMatch) return true;
-  if (regionMatch && regionMatch[1]) {
-    return regionMatch[3] >= episode >= regionMatch[1];
+  if (singleMatch || !episode) return true;
+  if (regionMatch && regionMatch[1] && regionMatch[3]) {
+    if (regionMatch[3] >= episode && regionMatch[1] <= episode) return true;
+    return false;
   }
 };
 
