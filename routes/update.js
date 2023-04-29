@@ -7,7 +7,7 @@ const Update = async () => {
 
   const lastUpdate = new Date(data.last_updated);
 
-  const count = 0;
+  let count = 0;
   for (let i = 0; i < newData.length; i++) {
     const currUpdate = new Date(newData[i].date);
     if (currUpdate <= lastUpdate) return { msg: "Up to Date." };
