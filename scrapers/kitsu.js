@@ -9,7 +9,7 @@ const getKitsuTitles = async () => {
 }
 
 const getTitleSub = async (url) => {
-  return await fetchTable(url)
+  return await fetchTable(url + '/&sort=date&order=desc')
 }
 
 const fetchTable = async (url) => {
