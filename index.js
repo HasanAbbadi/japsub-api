@@ -1,12 +1,13 @@
 // Routes
 const Hoard = require("./routes/hoard");
+const Search = require("./routes/search");
+const Update = require("./routes/update");
 
 // To solve the cors issue
 const cors = require("cors");
 
 // Express App
 const express = require("express");
-const Update = require("./routes/update");
 const app = express();
 
 const port = process.env.PORT || 4500;
@@ -32,7 +33,8 @@ app.get("/", (_, res) => {
 app.get("/search", async (req, res) => {
   const query = req.query.q.replace(/[^a-zA-Z0-9 ]/g, "");
   const episode = req.query.ep;
-  const result = await getKitsu(query, episode)
+  const season = req.query.se;
+  const result = Search(query, season, episode)
   res.send(result);
 });
 
@@ -43,7 +45,7 @@ app.get("/hoard", async (req, res) => {
 
 app.get("/Update", async (req, res) => {
   const msg = await Update()
-  res.json({status: msg})
+  res.json(msg)
 })
 
 

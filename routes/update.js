@@ -5,11 +5,11 @@ const data = require("../data/all.json");
 const Update = async () => {
   const newData = await getKitsuTitles();
 
-  const lastUpdate = Date.parse(data.last_updated);
+  const lastUpdate = new Date(data.last_updated);
 
   for (let i = 0; i < newData.length; i++) {
-    const currUpdate = Date.parse(newData[i].date);
-    if (currUpdate < lastUpdate) return { msg: "Up to Date." };
+    const currUpdate = new Date(newData[i].date);
+    if (currUpdate <= lastUpdate) return { msg: "Up to Date." };
 
     if (newData[i].title == data.data[i].title) {
       await updateEntry(i, newData[i]);
@@ -34,7 +34,10 @@ const addEntry = async (entry) => {
 };
 
 const updateFile = () => {
-  data.last_updated = new Date();
+  // update to last file date instead of using new Date()
+  // to avoid conflicting timezones and local clocks.
+
+  data.last_updated = data.data[0].date
 
   const json = JSON.stringify(data, null, 2);
   fs.writeFile("data/all.json", json, (err) => {
