@@ -27,7 +27,7 @@ const Search = (title, season, episode) => {
 const cleanTitle = (sub) => {
   // other file extensions
   sub = sub.replace(/.*\.(txt|md)$/, "");
-  sub = sub.replace(/(1080|720)p.*/, "");
+  sub = sub.replace(/(1080p|720p|WEBRip|Netflix).*/, "");
 
   // get rid of dates and seasons
   sub = sub.replace(/[\[\(][0-9]*(\.|-)[0-9]*(\.|-)[0-9]*[\]\)]/, "");
@@ -36,7 +36,7 @@ const cleanTitle = (sub) => {
 };
 
 const checkSeason = (sub, season) => {
-  const singleRegex = new RegExp(`([Ss][Ee][Aa][Ss][Oo][Nn]|S).?${season}*`);
+  const singleRegex = new RegExp(`([Ss][Ee][Aa][Ss][Oo][Nn]|S).?${season}`);
   const singleMatch = singleRegex.exec(sub);
 
   if (singleMatch || !season) return true;
