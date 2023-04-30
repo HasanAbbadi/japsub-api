@@ -1,29 +1,48 @@
 var fs = require("fs");
-const { getKitsuTitles, getTitleSub } = require("../scrapers/kitsu");
+const kitsu = require("../scrapers/kitsu");
+const matchoo = require("../scrapers/matchoo");
 
-const Hoard = async () => {
-  const data = await getKitsuTitles();
+const Hoard = async (source = "kitsu") => {
+  let data;
 
-  for (let i = 0; i < 5; i++) {
-    const subs = await getTitleSub(data[i].url);
+  switch (source) {
+    case "kitsu":
+      data = await hoardKitsu();
+      break;
+    case "matchoo":
+      data = await hoardMatchoo();
+      break;
+  }
+  writeJSON(data, source);
+};
+
+const hoardKitsu = async () => {
+  const data = await kitsu.getTitles();
+
+  for (let i = 0; i < 8; i++) {
+    const subs = await kitsu.getSub(data[i].url);
     data[i].subs = subs;
     console.log("finished " + (i + 1));
     console.log(((i + 1) / data.length) * 100 + "%");
   }
 
-  writeJSON(data);
+  return data;
 };
 
-const writeJSON = (data) => {
+const hoardMatchoo = async () => {
+  return await matchoo.getTitles();
+};
+
+const writeJSON = (data, file) => {
   const final = {
     last_updated: new Date(),
     data,
   };
 
   const json = JSON.stringify(final, null, 2);
-  fs.writeFile("data/all.json", json, (err) => {
+  fs.writeFile(`data/${file}.json`, json, (err) => {
     console.error(err);
   });
 };
 
-module.exports = Hoard
+module.exports = Hoard;

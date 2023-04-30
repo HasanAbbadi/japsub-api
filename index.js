@@ -31,7 +31,7 @@ app.get("/", (_, res) => {
 });
 
 app.get("/search", async (req, res) => {
-  const query = req.query.q.replace(/[^a-zA-Z0-9 ]/g, "");
+  const query = req.query.q;
   const episode = req.query.ep;
   const season = req.query.se;
   const result = Search(query, season, episode)
@@ -39,7 +39,9 @@ app.get("/search", async (req, res) => {
 });
 
 app.get("/hoard", async (req, res) => {
-  await Hoard()
+  const source = req.query.src;
+
+  await Hoard(source)
   res.json({status: "finished"})
 })
 
