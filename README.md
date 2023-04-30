@@ -1,19 +1,19 @@
-# Moyaser-API
-An endpoint to the official [hefzmoyaser](https://hefzmoyaser.net/mushaf) Api
-that provides an easier way of fetching data.
+# JapSub-Api
+An api that collects data from multiple sites, providing an easy way to find japanese
+subtitles for your shows.
+## Usage:
+There are three routes to this api:
+
+* `/hoard`:      Build the database.
+* `/update`:     Update the databse.
+* `/search`:     Fuzzy find files and archives stored in the DB.
 
 ## Installation
 ```shell
-git clone https://github.com/HasanAbbadi/moyaser-api
-cd moyaser-api
+git clone https://github.com/HasanAbbadi/japsub-api
+cd japsub-api
 npm install
 npm run start
 ```
 
 the api will start at port 4500 by default.
-
-## Usage:
-There are three routes to this api:
-
-* `/page`:      get all verses from specific page.
-* `/verse`:     get information regarding the verse, (eg: tafseer, meanings...)
