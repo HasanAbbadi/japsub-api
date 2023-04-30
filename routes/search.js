@@ -1,8 +1,14 @@
-const data = require("../data/all.json");
+const data1 = require("../data/kitsu.json");
+const data2 = require("../data/matchoo.json");
 const fuzzy = require("fuzzysort");
 
 const Search = (title, season, episode) => {
-  const results = fuzzy.go(title, data.data, {
+  const data = data1.data.concat(data2.data)
+
+  season = parseInt(season)
+  episode = parseInt(episode)
+
+  const results = fuzzy.go(title, data, {
     key: "title",
     limit: 2,
   });
@@ -26,7 +32,7 @@ const Search = (title, season, episode) => {
 
 const cleanTitle = (sub) => {
   // other file extensions
-  sub = sub.replace(/.*\.(txt|md)$/, "");
+  sub = sub.replace(/.*\.(txt|md|sup)$/, "");
   sub = sub.replace(/(1080p|720p|WEBRip|Netflix).*/, "");
 
   // get rid of dates and seasons
