@@ -1,9 +1,9 @@
 const fs = require("fs");
-const { getKitsuTitles, getTitleSub } = require("../scrapers/kitsu");
-const data = require("../data/all.json");
+const kitsu = require("../scrapers/kitsu")
+const data = require("../data/kitsu.json");
 
 const Update = async () => {
-  const newData = await getKitsuTitles();
+  const newData = await kitsu.getTitles();
 
   const lastUpdate = new Date(data.last_updated);
 
@@ -35,13 +35,13 @@ const checkEntry = (title) => {
 
 const updateEntry = async (index, entry) => {
   data.data[index] = entry;
-  data.data[index].subs = await getTitleSub(entry.url);
+  data.data[index].subs = await kitsu.getSub(entry.url);
 
   updateFile(data.data[index].date);
 };
 
 const addEntry = async (entry) => {
-  entry.subs = await getTitleSub(entry.url);
+  entry.subs = await kitsu.getSub(entry.url);
   data.data.push(entry);
 
   updateFile(entry.date);

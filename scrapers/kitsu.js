@@ -3,12 +3,12 @@ const cheerio = require("cheerio");
 
 const mainUrl = "https://kitsunekko.net";
 
-const getKitsuTitles = async () => {
+const getTitles = async () => {
   const leadUrl = "/dirlist.php?dir=subtitles/japanese/&sort=date&order=desc";
   return await fetchTable(leadUrl)
 }
 
-const getTitleSub = async (url) => {
+const getSub = async (url) => {
   return await fetchTable(url + '/&sort=date&order=desc')
 }
 
@@ -45,6 +45,6 @@ const getTableData = (body) => {
 };
 
 module.exports = {
-  getTitleSub,
-  getKitsuTitles
+  getSub,
+  getTitles
 }
