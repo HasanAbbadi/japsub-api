@@ -20,11 +20,27 @@ if (app.get("env") === "development") {
 
 app.get("/", (_, res) => {
   res.json({
-    text: "[Welcome to the unofficial mushaf hefzmoyaser api! 😊]",
+    text: "[Big collection of japanese subtitles from various sources! 😊]",
     routes: [
       {
-        route: "/page",
-        desc: "get all words in page.",
+        route: "/hoard",
+        desc: "Build the database.",
+        options: {
+          src: ["kitsu", "matchoo"]
+        }
+      },
+      {
+        route: "/update",
+        desc: "Update the database.",
+      },
+      {
+        route: "/search",
+        desc: "Fuzzy find files and archives stored in the DB.",
+        options: {
+          q: "Your query (Show Title in romaji/japanese)",
+          se: "(OPTIONAL) season number",
+          ep: "(OPTIONAL) episode number"
+        }
       },
     ],
   });
