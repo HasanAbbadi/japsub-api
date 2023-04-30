@@ -1,0 +1,58 @@
+
+{
+  "last_updated": "Apr 30 2023 05:59:12 PM",
+  "data": [
+    {
+      "title": "Puzzle And Dragon",
+      "size": "",
+      "url": "/dirlist.php?dir=subtitles%2Fjapanese%2FPuzzle_And_Dragon%2F",
+      "archive": false,
+      "date": "Apr 30 2023 12:38:05 PM",
+      "subs": [
+        {
+          "title": "Puzzle And Dragon 005.srt",
+          "size": "33 KB",
+          "url": "subtitles/japanese/Puzzle_And_Dragon//Puzzle_And_Dragon_005.srt",
+          "archive": false,
+          "date": "Apr 30 2023 12:38:05 PM"
+        },
+        {
+          "title": "Puzzle And Dragon 004.srt",
+          "size": "33 KB",
+          "url": "subtitles/japanese/Puzzle_And_Dragon//Puzzle_And_Dragon_004.srt",
+          "archive": false,
+          "date": "Apr 23 2023 12:38:05 PM"
+        },
+        {
+          "title": "Puzzle And Dragon 003.srt",
+          "size": "36 KB",
+          "url": "subtitles/japanese/Puzzle_And_Dragon//Puzzle_And_Dragon_003.srt",
+          "archive": false,
+          "date": "Apr 16 2023 12:38:04 PM"
+        },
+        {
+          "title": "Puzzle And Dragon 002.srt",
+          "size": "36 KB",
+          "url": "subtitles/japanese/Puzzle_And_Dragon//Puzzle_And_Dragon_002.srt",
+          "archive": false,
+          "date": "Apr 09 2023 12:38:04 PM"
+        }
+      ]
+    },
+    {
+      "title": "1922",
+      "url": "https://raw.githubusercontent.com/Matchoo95/JP-Subtitles/master/1922",
+      "archive": false,
+      "date": "Apr 20, 2021, 12:09 PM GMT+3",
+      "subs": [
+        {
+          "title": "1922/1922/1922.JA.srt",
+          "size": 54164,
+          "url": "https://raw.githubusercontent.com/Matchoo95/JP-Subtitles/master/1922/1922/1922.JA.srt",
+          "archive": false,
+          "date": "Apr 20, 2021, 12:09 PM GMT+3"
+        }
+      ]
+    }
+]
+}
