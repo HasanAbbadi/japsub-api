@@ -53,7 +53,7 @@ const updateFile = (date) => {
   data.last_updated = date;
 
   const json = JSON.stringify(data, null, 2);
-  fs.writeFile("data/all.json", json, (err) => {
+  fs.writeFile("data/kitsu.json", json, (err) => {
     console.error(err);
   });
 };
