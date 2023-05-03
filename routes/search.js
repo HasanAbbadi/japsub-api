@@ -51,7 +51,7 @@ const checkSeason = (sub, season) => {
 
 const checkEpisode = (sub, episode) => {
   episode = parseInt(episode);
-  sub = sub.replace(/([Ss][Ee][Aa][Ss][Oo][Nn]|S).?[0-9]*/, "");
+  sub = sub.replace(/([Ss][Ee][Aa][Ss][Oo][Nn]|[Ss]).?[0-9]*/g, "");
   const singleRegex = new RegExp(`[Ee]?(?<![0-9])0?(${episode})(?![0-9])`, "g");
   const singleMatch = singleRegex.exec(sub);
 
