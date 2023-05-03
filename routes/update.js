@@ -25,7 +25,7 @@ const Update = async () => {
 };
 
 const checkEntry = (title) => {
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < data.data.length; i++) {
     if (data.data[i].title == title) {
       return { exists: true, index: i };
     }
@@ -37,22 +37,22 @@ const updateEntry = async (index, entry) => {
   data.data[index] = entry;
   data.data[index].subs = await kitsu.getSub(entry.url);
 
-  updateFile(data.data[index].date);
+  updateFile(data.data[index].date, data);
 };
 
 const addEntry = async (entry) => {
   entry.subs = await kitsu.getSub(entry.url);
   data.data.push(entry);
 
-  updateFile(entry.date);
+  updateFile(entry.date, data);
 };
 
-const updateFile = (date) => {
+const updateFile = (date, jsonData) => {
   // update to last file date instead of using new Date()
   // to avoid conflicting timezones and local clocks.
   data.last_updated = date;
 
-  const json = JSON.stringify(data, null, 2);
+  const json = JSON.stringify(jsonData, null, 2);
   fs.writeFile("data/kitsu.json", json, (err) => {
     console.error(err);
   });
