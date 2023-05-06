@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 // Routes
 const Hoard = require("./routes/hoard");
 const Search = require("./routes/search");
@@ -55,6 +57,10 @@ app.get("/search", async (req, res) => {
 });
 
 app.get("/hoard", async (req, res) => {
+  if (req.query.pass != process.env.OAUTH) {
+    res.json({status: "ERR: Unauthorized."})
+    return
+  }
   const source = req.query.src;
 
   await Hoard(source)
