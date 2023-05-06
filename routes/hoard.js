@@ -2,12 +2,12 @@ var fs = require("fs");
 const kitsu = require("../scrapers/kitsu");
 const matchoo = require("../scrapers/matchoo");
 
-const Hoard = async (source = "kitsu") => {
+const Hoard = async (source = "kitsu", limit) => {
   let data;
 
   switch (source) {
     case "kitsu":
-      data = await hoardKitsu();
+      data = await hoardKitsu(limit);
       break;
     case "matchoo":
       data = await hoardMatchoo();
@@ -16,10 +16,11 @@ const Hoard = async (source = "kitsu") => {
   writeJSON(data, source);
 };
 
-const hoardKitsu = async () => {
+const hoardKitsu = async (limit) => {
   const data = await kitsu.getTitles();
 
-  for (let i = 0; i < 8; i++) {
+  if (!limit) limit = data.length
+  for (let i = 0; i < limit; i++) {
     const subs = await kitsu.getSub(data[i].url);
     data[i].subs = subs;
     console.log("finished " + (i + 1));

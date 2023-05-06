@@ -62,8 +62,9 @@ app.get("/hoard", async (req, res) => {
     return
   }
   const source = req.query.src;
+  const limit = req.query.limit
 
-  await Hoard(source)
+  await Hoard(source, limit)
   res.json({status: "finished"})
 })
 
