@@ -1,4 +1,5 @@
 node_modules
 data/*
 scrapers/temp.js
+/.env
 !data/sample.json
