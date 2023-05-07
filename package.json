@@ -2,7 +2,7 @@
   "name": "japsubs-api",
   "version": "1.0.0",
   "description": "",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
   "engines": {
     "node": "14.x"
@@ -14,11 +14,12 @@
   "author": "HasanAbbadi",
   "license": "ISC",
   "dependencies": {
+    "@vercel/kv": "^0.1.1",
     "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "fuzzysort": "^2.0.4",
-    "node-fetch-commonjs": "^3.2.4"
+    "node-fetch": "^3.3.1"
   }
 }

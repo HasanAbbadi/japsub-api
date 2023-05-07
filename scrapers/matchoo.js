@@ -1,5 +1,5 @@
 // Matchoo95/JP-Subtitles
-const fetch = require("node-fetch-commonjs");
+import fetch from "node-fetch";
 
 const mainUrl =
   "https://api.github.com/repos/Matchoo95/JP-Subtitles/git/trees/master?recursive=1";
@@ -52,6 +52,4 @@ const getJson = async (url) => {
   return await res.json();
 };
 
-module.exports = {
-  getTitles,
-};
+export default getTitles

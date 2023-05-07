@@ -1,15 +1,16 @@
-require("dotenv").config()
+import dotenv from "dotenv";
+dotenv.config()
 
 // Routes
-const Hoard = require("./routes/hoard");
-const Search = require("./routes/search");
-const Update = require("./routes/update");
+import Hoard from "./routes/hoard.js";
+import Search from "./routes/search.js";
+import Update from "./routes/update.js";
 
 // To solve the cors issue
-const cors = require("cors");
+import cors from "cors";
 
 // Express App
-const express = require("express");
+import express from "express";
 const app = express();
 
 const port = process.env.PORT || 4500;
@@ -28,8 +29,8 @@ app.get("/", (_, res) => {
         route: "/hoard",
         desc: "Build the database.",
         options: {
-          src: ["kitsu", "matchoo"]
-        }
+          src: ["kitsu", "matchoo"],
+        },
       },
       {
         route: "/update",
@@ -41,8 +42,8 @@ app.get("/", (_, res) => {
         options: {
           q: "Your query (Show Title in romaji/japanese)",
           se: "(OPTIONAL) season number",
-          ep: "(OPTIONAL) episode number"
-        }
+          ep: "(OPTIONAL) episode number",
+        },
       },
     ],
   });
@@ -52,28 +53,27 @@ app.get("/search", async (req, res) => {
   const query = req.query.q;
   const episode = req.query.ep;
   const season = req.query.se;
-  const result = Search(query, season, episode)
+  const result = Search(query, season, episode);
   res.send(result);
 });
 
 app.get("/hoard", async (req, res) => {
   if (req.query.pass != process.env.OAUTH) {
-    res.json({status: "ERR: Unauthorized."})
-    return
+    res.json({ status: "ERR: Unauthorized." });
+    return;
   }
   const source = req.query.src;
-  const limit = req.query.limit
+  const limit = req.query.limit;
 
-  await Hoard(source, limit)
-  res.json({status: "finished"})
-})
+  await Hoard(source, limit);
+  res.json({ status: "finished" });
+});
 
 app.get("/Update", async (req, res) => {
-  const msg = await Update()
-  res.json(msg)
-})
-
+  const msg = await Update();
+  res.json(msg);
+});
 
 app.listen(port, () => console.log(`Server started at ${port}`));
 
-module.exports = app;
+export default app;
