@@ -6,10 +6,10 @@ const mainUrl =
 const rawUrl =
   "https://raw.githubusercontent.com/Matchoo95/JP-Subtitles/master/";
 
-const getTitles = async () => {
+export async function getTitles() {
   const json = await getJson(mainUrl);
   return makeHierarchy(json.tree);
-};
+}
 
 const makeHierarchy = (arr) => {
   const data = [];
@@ -18,6 +18,7 @@ const makeHierarchy = (arr) => {
   let children = [];
 
   for (let i = 0; i < arr.length; i++) {
+    console.log(i)
     const isDescendant = arr[i].path.includes("/");
     const isBlob = arr[i].type === "blob";
 
@@ -52,4 +53,4 @@ const getJson = async (url) => {
   return await res.json();
 };
 
-export default getTitles
+export default getTitles;

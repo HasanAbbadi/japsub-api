@@ -1,9 +1,8 @@
-import data1 from "../data/kitsu.json" assert { type: "json" };
-import data2 from "../data/matchoo.json" assert { type: "json" };
 import fuzzy from "fuzzysort";
+import kv from "@vercel/kv"
+const data = await kv.get("data")
 
 const Search = (title, season, episode) => {
-  const data = data1.data.concat(data2.data);
   season = parseInt(season);
   episode = parseInt(episode);
   const results = fuzzy.go(title, data, {

@@ -1,10 +1,14 @@
-import fs from "fs";
-import kitsu from "../scrapers/kitsu.js";
-import data from "../data/kitsu.json" assert { type: "json" };
+import * as kitsu from "../scrapers/kitsu.js";
+import dotenv from "dotenv"
+dotenv.config()
+import kv from "@vercel/kv";
+
+const data = await kv.get("data");
+const last_updated = await kv.get("last_updated");
 
 const Update = async () => {
   const newData = await kitsu.getTitles();
-  const lastUpdate = new Date(data.last_updated);
+  const lastUpdate = new Date(last_updated);
   let count = 0;
   for (let i = 0; i < newData.length; i++) {
     const currUpdate = new Date(newData[i].date);
@@ -25,9 +29,10 @@ const Update = async () => {
     };
   }
 };
+
 const checkEntry = (title) => {
-  for (let i = 0; i < data.data.length; i++) {
-    if (data.data[i].title == title) {
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].title == title) {
       return {
         exists: true,
         index: i,
@@ -39,23 +44,23 @@ const checkEntry = (title) => {
     index: 0,
   };
 };
+
 const updateEntry = async (index, entry) => {
-  data.data[index] = entry;
-  data.data[index].subs = await kitsu.getSub(entry.url);
-  updateFile(data.data[index].date, data);
+  data[index] = entry;
+  data[index].subs = await kitsu.getSub(entry.url);
+  await updateFile(data[index].date, data);
 };
+
 const addEntry = async (entry) => {
   entry.subs = await kitsu.getSub(entry.url);
-  data.data.push(entry);
-  updateFile(entry.date, data);
+  data.push(entry);
+  await updateFile(entry.date, data);
 };
-const updateFile = (date, jsonData) => {
+
+const updateFile = async (date, jsonData) => {
   // update to last file date instead of using new Date()
   // to avoid conflicting timezones and local clocks.
-  data.last_updated = date;
-  const json = JSON.stringify(jsonData, null, 2);
-  fs.writeFile("data/kitsu.json", json, (err) => {
-    console.error(err);
-  });
+  await kv.set("last_updated", date);
+  await kv.set("data", jsonData);
 };
 export default Update;

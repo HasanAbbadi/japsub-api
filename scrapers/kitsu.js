@@ -3,14 +3,14 @@ import cheerio from "cheerio";
 
 const mainUrl = "https://kitsunekko.net";
 
-const getTitles = async () => {
+export async function getTitles() {
   const leadUrl = "/dirlist.php?dir=subtitles/japanese/&sort=date&order=desc";
   return await fetchTable(leadUrl);
-};
+}
 
-const getSub = async (url) => {
+export async function getSub(url) {
   return await fetchTable(url + "/&sort=date&order=desc");
-};
+}
 
 const fetchTable = async (url) => {
   const body = await getBody(mainUrl + url);
@@ -42,5 +42,3 @@ const getTableData = (body) => {
   });
   return data;
 };
-
-export default getTitles;

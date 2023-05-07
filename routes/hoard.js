@@ -1,6 +1,8 @@
-import fs from "fs";
-import kitsu from "../scrapers/kitsu.js";
-import matchoo from "../scrapers/matchoo.js";
+import * as kitsu from "../scrapers/kitsu.js";
+import * as matchoo from "../scrapers/matchoo.js";
+import dotenv from "dotenv"
+dotenv.config()
+import kv from "@vercel/kv";
 
 const Hoard = async (source = "kitsu", limit) => {
   let data;
@@ -12,30 +14,31 @@ const Hoard = async (source = "kitsu", limit) => {
       data = await hoardMatchoo();
       break;
   }
-  writeJSON(data, source);
+  await writeJSON(data, source);
 };
-const hoardKitsu = async limit => {
+
+const hoardKitsu = async (limit) => {
   const data = await kitsu.getTitles();
   if (!limit) limit = data.length;
   for (let i = 0; i < limit; i++) {
     const subs = await kitsu.getSub(data[i].url);
     data[i].subs = subs;
     console.log("finished " + (i + 1));
-    console.log((i + 1) / data.length * 100 + "%");
+    console.log(((i + 1) / data.length) * 100 + "%");
   }
   return data;
 };
+
 const hoardMatchoo = async () => {
   return await matchoo.getTitles();
 };
-const writeJSON = (data, file) => {
-  const final = {
-    last_updated: new Date(),
-    data
-  };
-  const json = JSON.stringify(final, null, 2);
-  fs.writeFile(`data/${file}.json`, json, err => {
-    console.error(err);
-  });
+
+const writeJSON = async (data, source) => {
+  const info = {}
+  info[source] = data
+  console.log(info)
+  await kv.set("last_updated", new Date().toDateString());
+  await kv.set("data", data)
 };
+
 export default Hoard;
