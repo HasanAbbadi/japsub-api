@@ -3,7 +3,8 @@ import dotenv from "dotenv"
 dotenv.config()
 import kv from "@vercel/kv";
 
-const data = await kv.get("data");
+let data = await kv.lrange(process.env.LIST_NAME || "subtitles", 0, -1);
+data = data.flat(1)
 const last_updated = await kv.get("last_updated");
 
 const Update = async () => {

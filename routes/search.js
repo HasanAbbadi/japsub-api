@@ -1,6 +1,7 @@
 import fuzzy from "fuzzysort";
 import kv from "@vercel/kv"
-const data = await kv.get("data")
+let data = await kv.lrange(process.env.LIST_NAME || "subtitles", 0, -1)
+data = data.flat(1)
 
 const Search = (title, season, episode) => {
   season = parseInt(season);
